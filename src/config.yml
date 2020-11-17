@@ -1,0 +1,27 @@
+permissions:
+  teleport:
+    use: group.leader
+    spectateonly: group.teststaff
+    others: group.manager
+    teleportxyz: group.manager
+    teleportxyzothers: group.manager
+  gamemode:
+    survival: group.manager
+    creative: group.manager
+    adventure: group.manager
+    spectate: group.manager
+    others: group.manager
+  warp:
+    create: group.default
+    delete: group.default
+    others: group.default
+    warpinfo: group.default
+settings:
+  tp:
+    sound:
+      enabled: false;
+  tpacooldown: 20
+  teleportcooldown: 5
+  warpdefaultpermission: group.default
+  warpdefaultprice: 100
+  warpdefaultcooldown: 5

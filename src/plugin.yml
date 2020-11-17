@@ -1,0 +1,58 @@
+name: MZP-Essential
+main: minecraft.essentials.zocker.pro.Main
+author: ludgart
+version: 0.0.1
+website: https://minecraft.plugin.zocker.pro/
+depend: [MZP-Core, Vault]
+
+api-version: 1.13
+
+commands:
+  teleport:
+    usage: /tp
+    description: tp
+    permission: mzp.essential.teleport
+    aliases: [tp, tele]
+  tpa:
+    usage: /tpa
+    description: tpa
+    permission: mzp.essential.teleport.request
+  spectate:
+    usage: /spectate
+    description: spectate
+    permission: mzp.essential.spectate
+  gamemode:
+    usage: /gamemode
+    description: gamemode
+    permission: mzp.essential.gamemode
+    aliases: [game, gm]
+  invsee:
+    usage: /invsee
+    description: invsee
+    permission: mzp.essential.invsee
+  warp:
+    usage: /warp
+    description: warp
+    permission: mzp.essential.warp
+    aliases: [warps]
+  speed:
+    usage: /speed
+    description: speed
+    permission: mzp.essential.speed
+  home:
+    usage: /home
+    description: home
+    permission: mzp.essential.home
+    aliases: [homes]    
+  day:
+    usage: /day
+    description: day
+    permission: mzp.essential.day
+  night:
+    usage: /night
+    description: night
+    permission: mzp.essential.night
+  skull:
+    usage: /skull
+    description: skull
+    permission: mzp.essential.skull 
