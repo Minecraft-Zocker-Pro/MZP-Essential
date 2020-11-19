@@ -179,6 +179,10 @@ public class Warp {
 	}
 
 	public List<String> getLore() {
+		if (lore == null) {
+			return new ArrayList<>();
+		}
+
 		return lore;
 	}
 
@@ -243,6 +247,10 @@ public class Warp {
 	}
 
 	public List<String> getCommands() {
+		if (commands == null) {
+			return new ArrayList<>();
+		}
+
 		return commands;
 	}
 
@@ -251,6 +259,10 @@ public class Warp {
 	}
 
 	public List<String> getTitle() {
+		if (title == null) {
+			return new ArrayList<>();
+		}
+
 		return title;
 	}
 

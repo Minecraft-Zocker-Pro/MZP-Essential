@@ -323,7 +323,10 @@ public class WarpEditInventory extends InventoryUpdateZocker {
 				if ((warp.getTitle().size() - 1) > this.titlePosition) {
 					this.titlePosition++;
 					CompatibleSound.playChangedSound(zocker.getPlayer());
+					return;
 				}
+
+				CompatibleSound.playErrorSound(zocker.getPlayer());
 			})
 			.addAction(ClickType.LEFT, inventoryClickEvent -> {
 				if (warp.getTitle() == null || warp.getTitle().isEmpty()) {
