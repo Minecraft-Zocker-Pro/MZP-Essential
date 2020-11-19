@@ -187,8 +187,7 @@ public class Main extends CorePlugin {
 		String createWarpTable, createHomeTable;
 
 		createWarpTable = "CREATE TABLE IF NOT EXISTS `" + ESSENTIAL_WARP_DATABASE_TABLE + "` (`name` varchar(48) NOT NULL UNIQUE, `display` varchar(48) DEFAULT NULL, `lore` varchar(255) DEFAULT NULL, `enabled` tinyint(4) DEFAULT TRUE, `price` double DEFAULT 0, `permission` varchar(255) DEFAULT " +
-			"NULL, `slot` int(11) DEFAULT 0, `cooldown` int(11) DEFAULT 0, `material` varchar(64) DEFAULT 'ENDER_PEARL', `command` varchar(255) DEFAULT NULL, `title` varchar(255) DEFAULT NULL, `location_world` varchar(36) NOT NULL, `location_x` double NOT NULL, `location_y` double NOT " +
-			"NULL, `location_z` double NOT NULL, " +
+			"NULL, `slot` int(11) DEFAULT 0, `cooldown` int(11) DEFAULT 0, `material` varchar(64) DEFAULT 'ENDER_PEARL', `command` varchar(255) DEFAULT NULL, `title` varchar(255) DEFAULT NULL, `location_world` varchar(36) NOT NULL, `location_x` double NOT NULL, `location_y` double NOT NULL, `location_z` double NOT NULL, " +
 			"`location_pitch` float NOT NULL, `location_yaw` float NOT NULL);";
 
 		createHomeTable = "CREATE TABLE IF NOT EXISTS `" + ESSENTIAL_HOME_DATABASE_TABLE + "` (`player_uuid` varchar(36) NOT NULL,`home_uuid` varchar(36) NOT NULL UNIQUE,`name` varchar(48) DEFAULT NULL,`public` tinyint(4) DEFAULT FALSE, `material` varchar(64) DEFAULT 'ENDER_PEARL'," +

@@ -1,5 +1,6 @@
 package minecraft.essential.zocker.pro.warp;
 
+import javafx.print.PageLayout;
 import minecraft.core.zocker.pro.Zocker;
 import minecraft.core.zocker.pro.compatibility.CompatibleMaterial;
 import minecraft.core.zocker.pro.compatibility.CompatibleMessage;
@@ -17,6 +18,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemFlag;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +69,7 @@ public class WarpListInventory extends InventoryZocker {
 				string = string.replace("&", "§");
 				lores.add(string);
 			}
+			
 			return new InventoryEntryBuilder()
 				.setItem(new ItemBuilder(CompatibleMaterial.OAK_SIGN.getMaterial())
 					.setName(Main.ESSENTIAL_MESSAGE.getString("essential.inventory.warp.info.player.title"))
@@ -116,6 +119,7 @@ public class WarpListInventory extends InventoryZocker {
 					.addItemFlag(ItemFlag.HIDE_PLACED_ON)
 					.addItemFlag(ItemFlag.HIDE_DESTROYS)
 					.setDisplayName(warp.getDisplayName().replace("&", "§")))
+				.setAsync(true)
 				.setSlot(warp.getSlot())
 				.onLeftClick(inventoryClickEvent -> handleWarp(player, warp))
 				.onRightClick(inventoryClickEvent -> handleWarp(player, warp))
@@ -128,19 +132,29 @@ public class WarpListInventory extends InventoryZocker {
 		if (warp.getPrice() > 0) {
 			if (Main.getEconomy().getBalance(player) >= warp.getPrice()) {
 				Main.getEconomy().withdrawPlayer(player, warp.getPrice());
-				player.closeInventory();
-				handleTeleport(player, warp);
+				new BukkitRunnable() {
+					@Override
+					public void run() {
+						player.closeInventory();
+						handleTeleport(player, warp);
+					}
+				}.runTask(Main.getPlugin());
 				return;
 			}
 
-			player.closeInventory();
+			closeInventory(player);
 			CompatibleMessage.sendMessage(player, Main.ESSENTIAL_MESSAGE.getString("essential.prefix") + Main.ESSENTIAL_MESSAGE.getString("essential.warp.notenough"));
 			CompatibleSound.playErrorSound(player);
 			return;
 		}
 
-		player.closeInventory();
-		handleTeleport(player, warp);
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				player.closeInventory();
+				handleTeleport(player, warp);
+			}
+		}.runTask(Main.getPlugin());
 	}
 
 	private void handleTeleport(Player player, Warp warp) {
@@ -193,5 +207,14 @@ public class WarpListInventory extends InventoryZocker {
 		});
 
 		teleporter.teleport();
+	}
+
+	private void closeInventory(Player player) {
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				player.closeInventory();
+			}
+		}.runTask(Main.getPlugin());
 	}
 }

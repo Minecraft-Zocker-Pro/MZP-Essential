@@ -60,6 +60,7 @@ public class HomeListInventory extends InventoryZocker {
 			.setItem(new ItemBuilder(CompatibleMaterial.OAK_SIGN.getMaterial())
 				.setName(Main.ESSENTIAL_MESSAGE.getString("essential.inventory.home.info.title"))
 				.setLore(lores))
+			.setAsync(false)
 			.build();
 	}
 
@@ -91,6 +92,7 @@ public class HomeListInventory extends InventoryZocker {
 				.addAction(ClickType.MIDDLE, e -> {
 					new HomeEditInventory(zocker, home).open(zocker);
 				})
+				.setAsync(false)
 				.setSlot(count)
 				.build());
 

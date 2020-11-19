@@ -1,5 +1,6 @@
 package minecraft.essential.zocker.pro.warp;
 
+import minecraft.core.zocker.pro.Main;
 import minecraft.core.zocker.pro.Zocker;
 import minecraft.core.zocker.pro.compatibility.CompatibleMaterial;
 import minecraft.core.zocker.pro.inventory.InventoryAnvilZocker;
@@ -9,6 +10,7 @@ import minecraft.core.zocker.pro.inventory.builder.InventoryEntryBuilder;
 import minecraft.core.zocker.pro.inventory.util.ItemBuilder;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
@@ -183,9 +185,13 @@ public class WarpEditAnvilInventory extends InventoryAnvilZocker {
 			}
 		}
 
-
-		this.zocker.getPlayer().closeInventory();
-		new WarpEditInventory(zocker, warp).open(zocker);
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				zocker.getPlayer().closeInventory();
+				new WarpEditInventory(zocker, warp).open(zocker);
+			}
+		}.runTask(Main.getPlugin());
 	}
 
 	@Override

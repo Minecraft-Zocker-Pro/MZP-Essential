@@ -80,6 +80,7 @@ public class HomeEditInventory extends InventoryZocker {
 					e.printStackTrace();
 				}
 			})
+			.setAsync(false)
 			.setSlot(24)
 			.build());
 
@@ -88,6 +89,7 @@ public class HomeEditInventory extends InventoryZocker {
 				.setName("§6§lDisplay Name")
 				.addLore("§3" + home.getName()))
 			.onAllClicks(inventoryClickEvent -> new HomeEditAnvilInventory(zocker, home, HomeEditType.DISPLAY_NAME).open(zocker))
+			.setAsync(false)
 			.setSlot(20)
 			.build());
 
@@ -120,6 +122,7 @@ public class HomeEditInventory extends InventoryZocker {
 
 				new HomeEditInventory(zocker, home).open(zocker);
 			})
+			.setAsync(false)
 			.setSlot(21)
 			.build());
 
@@ -146,6 +149,7 @@ public class HomeEditInventory extends InventoryZocker {
 				CompatibleSound.playSuccessSound(zocker.getPlayer());
 				new HomeEditInventory(zocker, home).open(zocker);
 			})
+			.setAsync(false)
 			.setSlot(22)
 			.build());
 	}

@@ -1,6 +1,7 @@
 package minecraft.essential.zocker.pro.home;
 
 import minecraft.core.zocker.pro.Zocker;
+import minecraft.core.zocker.pro.util.Util;
 import minecraft.essential.zocker.pro.Main;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -57,7 +58,7 @@ public class HomeZocker extends Zocker {
 				homes.add(new Home(
 					homeUUID,
 					data.get("name"),
-					Boolean.valueOf(data.get("public")),
+					Util.convertStringToBoolean(data.get("public")),
 					Material.valueOf(data.get("material")),
 					new Location(
 						world,

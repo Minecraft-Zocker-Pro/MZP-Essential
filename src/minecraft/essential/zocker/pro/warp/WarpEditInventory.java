@@ -89,6 +89,7 @@ public class WarpEditInventory extends InventoryUpdateZocker {
 		this.setUpdateTimeUnit(TimeUnit.SECONDS);
 
 		this.addItem(new InventoryEntryBuilder()
+			.setAsync(false)
 			.setSlot(48)
 			.onAllClicks(e -> new WarpListInventory(zocker).open(zocker))
 			.setItem(this.getPreviousArrow().getItem()).build());
@@ -101,6 +102,7 @@ public class WarpEditInventory extends InventoryUpdateZocker {
 				CompatibleSound.playSuccessSound(zocker.getPlayer());
 				new WarpListInventory(zocker).open(zocker);
 			})
+			.setAsync(false)
 			.setSlot(13)
 			.build());
 
@@ -109,6 +111,7 @@ public class WarpEditInventory extends InventoryUpdateZocker {
 				.setName("§6§lDisplay Name")
 				.addLore("§3" + warp.getDisplayName()))
 			.onAllClicks(inventoryClickEvent -> new WarpEditAnvilInventory(zocker, warp, WarpEditType.DISPLAY_NAME).open(zocker))
+			.setAsync(false)
 			.setSlot(20)
 			.build());
 
@@ -117,6 +120,7 @@ public class WarpEditInventory extends InventoryUpdateZocker {
 				.setName("§6§lPrice")
 				.addLore("§3" + warp.getPrice()))
 			.onAllClicks(inventoryClickEvent -> new WarpEditAnvilInventory(zocker, warp, WarpEditType.PRICE).open(zocker))
+			.setAsync(false)
 			.setSlot(22)
 			.build());
 
@@ -125,6 +129,7 @@ public class WarpEditInventory extends InventoryUpdateZocker {
 				.setName("§6§lPermission")
 				.addLore("§3" + warp.getPermission()))
 			.onAllClicks(inventoryClickEvent -> new WarpEditAnvilInventory(zocker, warp, WarpEditType.PERMISSION).open(zocker))
+			.setAsync(false)
 			.setSlot(23)
 			.build());
 
@@ -133,6 +138,7 @@ public class WarpEditInventory extends InventoryUpdateZocker {
 				.setName("§6§lPosition")
 				.addLore("§3" + warp.getSlot()))
 			.onAllClicks(inventoryClickEvent -> new WarpEditAnvilInventory(zocker, warp, WarpEditType.SLOT).open(zocker))
+			.setAsync(false)
 			.setSlot(24)
 			.build());
 
@@ -141,6 +147,7 @@ public class WarpEditInventory extends InventoryUpdateZocker {
 				.setName("§6§lCooldown")
 				.addLore("§3" + warp.getCooldown()))
 			.onAllClicks(inventoryClickEvent -> new WarpEditAnvilInventory(zocker, warp, WarpEditType.COOLDOWN).open(zocker))
+			.setAsync(false)
 			.setSlot(30)
 			.build());
 
@@ -175,7 +182,7 @@ public class WarpEditInventory extends InventoryUpdateZocker {
 
 				new WarpEditAnvilInventory(zocker, warp, WarpEditType.LORE, this.lorePosition).open(zocker); // edit x position
 			})
-			.addAction(ClickType.RIGHT, inventoryClickEvent -> { // add new line
+			.addAction(ClickType.RIGHT, inventoryClickEvent -> { // player.
 				List<String> lores = new ArrayList<>();
 				if (warp.getLore() != null && !warp.getLore().isEmpty()) {
 					lores = new ArrayList(Arrays.asList(warp.getLore().toArray(new String[0])));
@@ -183,7 +190,6 @@ public class WarpEditInventory extends InventoryUpdateZocker {
 
 				lores.add("&3new line");
 				warp.setLore(lores);
-				new WarpEditAnvilInventory(zocker, warp, WarpEditType.LORE, lores.size() - 1);
 			})
 			.addAction(ClickType.SHIFT_RIGHT, inventoryClickEvent -> {
 				List<String> lores;
@@ -201,6 +207,7 @@ public class WarpEditInventory extends InventoryUpdateZocker {
 					this.lorePosition--;
 				}
 			})
+			.setAsync(false)
 			.setSlot(21)
 			.build());
 
@@ -278,7 +285,6 @@ public class WarpEditInventory extends InventoryUpdateZocker {
 
 				commands.add("new line");
 				warp.setCommands(commands);
-				new WarpEditAnvilInventory(zocker, warp, WarpEditType.COMMAND, commands.size() - 1);
 			})
 			.addAction(ClickType.SHIFT_RIGHT, inventoryClickEvent -> {
 				List<String> commands;
@@ -296,6 +302,7 @@ public class WarpEditInventory extends InventoryUpdateZocker {
 					this.commandPosition--;
 				}
 			})
+			.setAsync(false)
 			.setSlot(32)
 			.build());
 
@@ -339,7 +346,6 @@ public class WarpEditInventory extends InventoryUpdateZocker {
 
 				title.add("&3new line");
 				warp.setTitle(title);
-				new WarpEditAnvilInventory(zocker, warp, WarpEditType.TITLE, title.size() - 1);
 			})
 			.addAction(ClickType.SHIFT_RIGHT, inventoryClickEvent -> {
 				List<String> title;
@@ -357,6 +363,7 @@ public class WarpEditInventory extends InventoryUpdateZocker {
 					this.titlePosition--;
 				}
 			})
+			.setAsync(false)
 			.setSlot(33)
 			.build());
 
