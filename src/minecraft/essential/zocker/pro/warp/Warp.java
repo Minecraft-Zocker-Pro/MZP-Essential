@@ -183,7 +183,13 @@ public class Warp {
 			return new ArrayList<>();
 		}
 
-		return lore;
+		ArrayList<String> lores = new ArrayList<>();
+		for (String lore : this.lore) {
+			lore = lore.replace("&", "§");
+			lores.add(lore);
+		}
+
+		return lores;
 	}
 
 	public void setLore(List<String> lore) {
@@ -263,7 +269,13 @@ public class Warp {
 			return new ArrayList<>();
 		}
 
-		return title;
+		ArrayList<String> titles = new ArrayList<>();
+		for (String title : this.title) {
+			title = title.replace("&", "§");
+			titles.add(title);
+		}
+
+		return titles;
 	}
 
 	public void setTitle(List<String> title) {

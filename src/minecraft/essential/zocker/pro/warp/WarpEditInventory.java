@@ -312,7 +312,7 @@ public class WarpEditInventory extends InventoryUpdateZocker {
 		this.setItem(new InventoryEntryBuilder()
 			.setItem(new ItemBuilder(CompatibleMaterial.ITEM_FRAME.getMaterial())
 				.setName("§6§lTitle §7[" + (this.titlePosition + 1) + "]")
-				.setLore(warp.getTitle().stream().map(s -> s = s.replace("&", "§")).collect(Collectors.toList())))
+				.setLore(warp.getTitle()))
 			.addAction(ClickType.MIDDLE, inventoryClickEvent -> {  // change position
 				if (this.titlePosition >= 1) {
 					this.titlePosition = 0;

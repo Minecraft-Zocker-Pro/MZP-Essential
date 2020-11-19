@@ -69,7 +69,7 @@ public class WarpListInventory extends InventoryZocker {
 				string = string.replace("&", "§");
 				lores.add(string);
 			}
-			
+
 			return new InventoryEntryBuilder()
 				.setItem(new ItemBuilder(CompatibleMaterial.OAK_SIGN.getMaterial())
 					.setName(Main.ESSENTIAL_MESSAGE.getString("essential.inventory.warp.info.player.title"))
@@ -104,7 +104,9 @@ public class WarpListInventory extends InventoryZocker {
 			List<String> lores = new ArrayList<>();
 			if (warp.getLore() != null) {
 				for (String lore : warp.getLore()) {
-					lore = lore.replace("%price%", String.valueOf(warp.getPrice()))
+					lore = lore
+						.replace("&", "§")
+						.replace("%price%", String.valueOf(warp.getPrice()))
 						.replace("%cooldown%", String.valueOf(warp.getCooldown()))
 						.replace("%player%", zocker.getPlayer().getName());
 
