@@ -1,11 +1,11 @@
 package minecraft.essential.zocker.pro.command.teleport;
 
-import minecraft.core.zocker.pro.Main;
 import minecraft.core.zocker.pro.command.Command;
 import minecraft.core.zocker.pro.compatibility.CompatibleMessage;
 import minecraft.core.zocker.pro.compatibility.CompatibleSound;
 import minecraft.core.zocker.pro.config.Config;
 import minecraft.core.zocker.pro.util.Util;
+import minecraft.essential.zocker.pro.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -32,7 +32,7 @@ public class TeleportCommand extends Command {
 				Player target = Bukkit.getPlayer(args[0]);
 				if (target == null || !target.isOnline()) {
 					CompatibleSound.playErrorSound(player);
-					CompatibleMessage.sendMessage(player, Main.CORE_MESSAGE.getString("essential.prefix") + Main.CORE_MESSAGE.getString("essential.general.offline").replace("%target%", args[0]));
+					CompatibleMessage.sendMessage(player, Main.ESSENTIAL_MESSAGE.getString("essential.prefix") + Main.ESSENTIAL_MESSAGE.getString("essential.general.offline").replace("%target%", args[0]));
 					return;
 				}
 
@@ -46,7 +46,7 @@ public class TeleportCommand extends Command {
 					CompatibleSound.playTeleportSound(player);
 				});
 
-				CompatibleMessage.sendMessage(player, Main.CORE_MESSAGE.getString("essential.prefix") + Main.CORE_MESSAGE.getString("essential.teleport.success").replace("%target%", args[0]));
+				CompatibleMessage.sendMessage(player, Main.ESSENTIAL_MESSAGE.getString("essential.prefix") + Main.ESSENTIAL_MESSAGE.getString("essential.teleport.success").replace("%target%", args[0]));
 				return;
 			}
 
@@ -58,7 +58,7 @@ public class TeleportCommand extends Command {
 			Player target = Bukkit.getPlayer(args[0]);
 			if (target == null || !target.isOnline()) {
 				CompatibleSound.playErrorSound(player);
-				CompatibleMessage.sendMessage(player, Main.CORE_MESSAGE.getString("essential.prefix") + Main.CORE_MESSAGE.getString("essential.general.offline").replace("%target%", args[0]));
+				CompatibleMessage.sendMessage(player, Main.ESSENTIAL_MESSAGE.getString("essential.prefix") + Main.ESSENTIAL_MESSAGE.getString("essential.general.offline").replace("%target%", args[0]));
 				return;
 			}
 
@@ -72,7 +72,7 @@ public class TeleportCommand extends Command {
 				CompatibleSound.playTeleportSound(player);
 			});
 
-			CompatibleMessage.sendMessage(player, Main.CORE_MESSAGE.getString("essential.prefix") + Main.CORE_MESSAGE.getString("essential.teleport.success").replace("%target%", args[0]));
+			CompatibleMessage.sendMessage(player, Main.ESSENTIAL_MESSAGE.getString("essential.prefix") + Main.ESSENTIAL_MESSAGE.getString("essential.teleport.success").replace("%target%", args[0]));
 			return;
 		}
 
@@ -94,7 +94,7 @@ public class TeleportCommand extends Command {
 				CompatibleSound.playTeleportSound(target);
 			});
 
-			CompatibleMessage.sendMessage(target, Main.CORE_MESSAGE.getString("essential.prefix") + Main.CORE_MESSAGE.getString("essential.teleport.success").replace("%target%", player.getName()));
+			CompatibleMessage.sendMessage(target, Main.ESSENTIAL_MESSAGE.getString("essential.prefix") + Main.ESSENTIAL_MESSAGE.getString("essential.teleport.success").replace("%target%", player.getName()));
 			return;
 		}
 

@@ -16,6 +16,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Optional;
 
@@ -48,7 +49,12 @@ public class Main extends CorePlugin {
 		this.registerCommand();
 		this.registerListener();
 
-		Warp.loadWarps();
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				Warp.loadWarps();
+			}
+		}.runTaskLater(this, 20);
 	}
 
 	@Override
@@ -194,7 +200,7 @@ public class Main extends CorePlugin {
 			"varchar(36) NOT NULL,`location_x` double NOT NULL,`location_y` double NOT NULL,`location_z` double NOT NULL,`location_pitch` float NOT NULL,`location_yaw` float NOT NULL,FOREIGN KEY (player_uuid) REFERENCES player (uuid) ON DELETE CASCADE);";
 
 		String createHomeIndex = "CREATE INDEX IF NOT EXISTS `player_uuid` ON `" + ESSENTIAL_HOME_DATABASE_TABLE + "` (`player_uuid`);";
-		
+
 		if (StorageManager.isMySQL()) {
 			assert StorageManager.getMySQLDatabase() != null : "Create table failed.";
 			StorageManager.getMySQLDatabase().createTable(createWarpTable);
