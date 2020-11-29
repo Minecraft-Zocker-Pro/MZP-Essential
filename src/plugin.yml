@@ -1,9 +1,10 @@
 name: MZP-Essential
 main: minecraft.essential.zocker.pro.Main
 author: ludgart
-version: 0.0.6
+version: 0.0.7
 website: https://minecraft.plugin.zocker.pro/
 depend: [MZP-Core, Vault]
+softdepend: [MZP-Economy]
 
 api-version: 1.13
 
@@ -55,4 +56,8 @@ commands:
   skull:
     usage: /skull
     description: skull
-    permission: mzp.essential.skull 
+    permission: mzp.essential.skull
+  spawn:
+    usage: /spawn
+    description: skull
+    permission: mzp.essential.spawn 
