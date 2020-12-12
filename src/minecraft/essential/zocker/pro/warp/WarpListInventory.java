@@ -1,6 +1,5 @@
 package minecraft.essential.zocker.pro.warp;
 
-import javafx.print.PageLayout;
 import minecraft.core.zocker.pro.Zocker;
 import minecraft.core.zocker.pro.compatibility.CompatibleMaterial;
 import minecraft.core.zocker.pro.compatibility.CompatibleMessage;

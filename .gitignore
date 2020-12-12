@@ -1,1 +1,12 @@
+gradle
+.gradle
+gradlew.bat
+gradlew
+gradle.properties
+
+# IntelliJ project files
 .idea
+*.iml
+build
+out
+gen

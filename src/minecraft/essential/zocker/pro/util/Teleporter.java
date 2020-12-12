@@ -3,6 +3,7 @@ package minecraft.essential.zocker.pro.util;
 import minecraft.core.zocker.pro.compatibility.CompatibleMessage;
 import minecraft.core.zocker.pro.compatibility.CompatibleSound;
 import minecraft.essential.zocker.pro.Main;
+import minecraft.essential.zocker.pro.command.spawn.SpawnCommand;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -22,12 +23,19 @@ public class Teleporter {
 	private TeleporterListener teleporterListener = null;
 
 	public Teleporter(Player player, Location location, int cooldown) {
-		this.player = player;
-		this.location = location;
-		this.cooldown = cooldown;
+		this(player, location, cooldown, false);
 	}
 
 	public Teleporter(Player player, Location location, int cooldown, boolean sync) {
+		if (location.getWorld() == null) {
+			if (SpawnCommand.getSpawnLocation() == null) {
+				System.out.println("Cant teleport the player. No spawn found!");
+				return;
+			}
+			
+			this.location = SpawnCommand.getSpawnLocation();
+		}
+
 		this.player = player;
 		this.location = location;
 		this.cooldown = cooldown;

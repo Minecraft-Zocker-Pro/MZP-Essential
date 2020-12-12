@@ -73,6 +73,11 @@ public class SpawnCommand extends Command {
 		if (worldName == null) return;
 
 		World w = Bukkit.getWorld(worldName);
+		if (w == null) {
+			System.out.println("Spawn not found! Please set the spawn with /spawn set");
+			return;
+		}
+		
 		double x = config.getDouble("essential.spawn.location.x");
 		double y = config.getDouble("essential.spawn.location.y") + 1.0D;
 		double z = config.getDouble("essential.spawn.location.z");
