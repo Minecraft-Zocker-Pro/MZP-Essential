@@ -9,6 +9,7 @@ import minecraft.core.zocker.pro.inventory.InventoryUpdateZocker;
 import minecraft.core.zocker.pro.inventory.InventoryZocker;
 import minecraft.core.zocker.pro.inventory.builder.InventoryEntryBuilder;
 import minecraft.core.zocker.pro.inventory.util.ItemBuilder;
+import minecraft.essential.zocker.pro.Main;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -115,14 +116,16 @@ public class WarpEditInventory extends InventoryUpdateZocker {
 			.setSlot(20)
 			.build());
 
-		this.setItem(new InventoryEntryBuilder()
-			.setItem(new ItemBuilder(CompatibleMaterial.SUNFLOWER.getMaterial())
-				.setName("§6§lPrice")
-				.addLore("§3" + warp.getPrice()))
-			.onAllClicks(inventoryClickEvent -> new WarpEditAnvilInventory(zocker, warp, WarpEditType.PRICE).open(zocker))
-			.setAsync(false)
-			.setSlot(22)
-			.build());
+		if (Main.hasVaultSupport) {
+			this.setItem(new InventoryEntryBuilder()
+				.setItem(new ItemBuilder(CompatibleMaterial.SUNFLOWER.getMaterial())
+					.setName("§6§lPrice")
+					.addLore("§3" + warp.getPrice()))
+				.onAllClicks(inventoryClickEvent -> new WarpEditAnvilInventory(zocker, warp, WarpEditType.PRICE).open(zocker))
+				.setAsync(false)
+				.setSlot(22)
+				.build());
+		}
 
 		this.setItem(new InventoryEntryBuilder()
 			.setItem(new ItemBuilder(CompatibleMaterial.ENDER_EYE.getMaterial())

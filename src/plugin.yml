@@ -1,10 +1,10 @@
 name: MZP-Essential
 main: minecraft.essential.zocker.pro.Main
 author: ludgart
-version: 0.0.7
+version: 0.0.8
 website: https://minecraft.plugin.zocker.pro/
-depend: [MZP-Core, Vault]
-softdepend: [MZP-Economy]
+depend: [MZP-Core]
+softdepend: [MZP-Economy, Vault]
 
 api-version: 1.13
 
@@ -40,6 +40,10 @@ commands:
     usage: /speed
     description: speed
     permission: mzp.essential.speed
+  heal:
+    usage: /heal
+    description: heal
+    permission: mzp.essential.heal    
   home:
     usage: /home
     description: home

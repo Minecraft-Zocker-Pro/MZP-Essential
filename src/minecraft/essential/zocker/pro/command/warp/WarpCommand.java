@@ -61,11 +61,17 @@ public class WarpCommand extends Command {
 				if (warp.getPrice() == 0) {
 					handleTeleport(player, warp);
 				} else {
-					if (Main.getEconomy().getBalance(player) >= warp.getPrice()) {
-						Main.getEconomy().withdrawPlayer(player, warp.getPrice());
+					if (Main.hasVaultSupport) {
+						if (Main.getEconomy().getBalance(player) >= warp.getPrice()) {
+							Main.getEconomy().withdrawPlayer(player, warp.getPrice());
 
+							handleTeleport(player, warp);
+
+							CompatibleSound.playSuccessSound(player);
+							return;
+						}
+					} else {
 						handleTeleport(player, warp);
-
 						CompatibleSound.playSuccessSound(player);
 						return;
 					}
@@ -87,7 +93,9 @@ public class WarpCommand extends Command {
 			@Override
 			public void onCanceled() {
 				if (warp.getPrice() > 0) {
-					Main.getEconomy().depositPlayer(player, warp.getPrice());
+					if (Main.hasVaultSupport) {
+						Main.getEconomy().depositPlayer(player, warp.getPrice());
+					}
 				}
 			}
 

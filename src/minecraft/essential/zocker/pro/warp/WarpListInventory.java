@@ -131,8 +131,19 @@ public class WarpListInventory extends InventoryZocker {
 
 	private void handleWarp(Player player, Warp warp) {
 		if (warp.getPrice() > 0) {
-			if (Main.getEconomy().getBalance(player) >= warp.getPrice()) {
-				Main.getEconomy().withdrawPlayer(player, warp.getPrice());
+			if (Main.hasVaultSupport) {
+				if (Main.getEconomy().getBalance(player) >= warp.getPrice()) {
+					Main.getEconomy().withdrawPlayer(player, warp.getPrice());
+					new BukkitRunnable() {
+						@Override
+						public void run() {
+							player.closeInventory();
+							handleTeleport(player, warp);
+						}
+					}.runTask(Main.getPlugin());
+					return;
+				}
+			} else {
 				new BukkitRunnable() {
 					@Override
 					public void run() {
@@ -142,7 +153,6 @@ public class WarpListInventory extends InventoryZocker {
 				}.runTask(Main.getPlugin());
 				return;
 			}
-
 			closeInventory(player);
 			CompatibleMessage.sendMessage(player, Main.ESSENTIAL_MESSAGE.getString("essential.prefix") + Main.ESSENTIAL_MESSAGE.getString("essential.warp.notenough"));
 			CompatibleSound.playErrorSound(player);
@@ -163,7 +173,11 @@ public class WarpListInventory extends InventoryZocker {
 		teleporter.setTeleporterListener(new Teleporter.TeleporterListener() {
 			@Override
 			public void onCanceled() {
-				Main.getEconomy().depositPlayer(player, warp.getPrice());
+				if (warp.getPrice() > 0) {
+					if (Main.hasVaultSupport) {
+						Main.getEconomy().depositPlayer(player, warp.getPrice());
+					}
+				}
 			}
 
 			@Override

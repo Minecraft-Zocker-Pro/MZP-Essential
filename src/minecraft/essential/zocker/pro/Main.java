@@ -34,6 +34,8 @@ public class Main extends CorePlugin {
 
 	public static String ESSENTIAL_POSITION_DATABASE_TABLE;
 
+	public static boolean hasVaultSupport;
+
 	private static CorePlugin PLUGIN;
 
 	@Override
@@ -50,13 +52,12 @@ public class Main extends CorePlugin {
 			return;
 		}
 
-		if (!setupEconomy()) {
-			System.out.println("Disabled due to no Vault dependency found!");
-			getServer().getPluginManager().disablePlugin(this);
-			return;
+		this.buildConfig();
+
+		if (this.setupEconomy()) {
+			System.out.println("Hooked into Vault!");
 		}
 
-		this.buildConfig();
 		this.verifyDatabase();
 		this.registerCommand();
 		this.registerListener();
@@ -105,6 +106,13 @@ public class Main extends CorePlugin {
 		// Speed
 		ESSENTIAL_CONFIG.set("essential.speed.enabled", true, "0.0.1");
 		ESSENTIAL_CONFIG.set("essential.speed.max", 0.5, "0.0.1");
+
+		// Heal
+		ESSENTIAL_CONFIG.set("essential.heal.enabled", true, "0.0.8");
+		ESSENTIAL_CONFIG.set("essential.heal.notify", true, "0.0.8");
+		ESSENTIAL_CONFIG.set("essential.heal.potion", true, "0.0.8");
+		ESSENTIAL_CONFIG.set("essential.heal.fire", true, "0.0.8");
+		ESSENTIAL_CONFIG.set("essential.heal.food", true, "0.0.8");
 
 		// Home
 		ESSENTIAL_CONFIG.set("essential.home.enabled", true, "0.0.1");
@@ -168,6 +176,11 @@ public class Main extends CorePlugin {
 		ESSENTIAL_MESSAGE.set("essential.speed.changed", "&3Changed fly speed to &6%speed%&3.", "0.0.1");
 		ESSENTIAL_MESSAGE.set("essential.speed.usage", "&3Type &6/speed <speed>&3 to change your fly speed.", "0.0.1");
 
+		// Heal
+		ESSENTIAL_MESSAGE.set("essential.heal.self.success", "&3Successfully healed.");
+		ESSENTIAL_MESSAGE.set("essential.heal.other.success", "&3You successfully healed &6%target%&3.");
+		ESSENTIAL_MESSAGE.set("essential.heal.other.notify", "&3You have been healed by &6%target%&3.");
+		
 		// Home
 		ESSENTIAL_MESSAGE.set("essential.home.created", "&6You &3created an new home.", "0.0.1");
 		ESSENTIAL_MESSAGE.set("essential.home.deleted", "&6You &3deleted the home &6%home%&3.", "0.0.1");
@@ -273,6 +286,10 @@ public class Main extends CorePlugin {
 			getCommand("speed").setExecutor(new SpeedCommand());
 		}
 
+		if (Optional.of(ESSENTIAL_CONFIG.getBool("essential.heal.enabled")).orElse(true)) {
+			getCommand("heal").setExecutor(new HealCommand());
+		}
+
 		if (Optional.of(ESSENTIAL_CONFIG.getBool("essential.home.enabled")).orElse(true)) {
 			getCommand("home").setExecutor(new HomeCommand());
 		}
@@ -288,14 +305,17 @@ public class Main extends CorePlugin {
 
 	private boolean setupEconomy() {
 		if (getServer().getPluginManager().getPlugin("Vault") == null) {
+			hasVaultSupport = false;
 			return false;
 		}
 		RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
 		if (rsp == null) {
+			hasVaultSupport = false;
 			return false;
 		}
 
 		ECONOMY = rsp.getProvider();
+		hasVaultSupport = true;
 		return true;
 	}
 
