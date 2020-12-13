@@ -128,7 +128,7 @@ public class Main extends CorePlugin {
 		ESSENTIAL_CONFIG.set("essential.spawn.sync.enabled", false, "0.0.7");
 		ESSENTIAL_CONFIG.set("essential.spawn.sync.wait", 1000, "0.0.7");
 
-		ESSENTIAL_CONFIG.setVersion("0.0.7", true);
+		ESSENTIAL_CONFIG.setVersion("0.0.8", true);
 
 		// Message
 		ESSENTIAL_MESSAGE = new Config("message.yml", this.getPluginName());
@@ -217,7 +217,7 @@ public class Main extends CorePlugin {
 				"&3Middle click: &6Edit"},
 			"0.0.1");
 
-		ESSENTIAL_MESSAGE.setVersion("0.0.7", true);
+		ESSENTIAL_MESSAGE.setVersion("0.0.8", true);
 	}
 
 	private void verifyDatabase() {
