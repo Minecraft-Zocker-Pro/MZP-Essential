@@ -90,8 +90,7 @@ public class HomeZocker extends Zocker {
 			new Object[]{home.getId(), this.getUUIDString(), home.getName(), home.isPublic() ? 1 : 0, home.getMaterial().name(), home.getLocation().getWorld().getName(), home.getLocation().getX(), home.getLocation().getY(), home.getLocation().getZ(), home.getLocation().getYaw(),
 				home.getLocation().getPitch()},
 			new String[]{"player_uuid", "home_uuid"},
-			new Object[]{this.getUUIDString(), home.getId()},
-			this.getUUIDString()
+			new Object[]{this.getUUIDString(), home.getId()}
 		);
 	}
 

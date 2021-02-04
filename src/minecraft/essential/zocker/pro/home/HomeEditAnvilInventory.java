@@ -86,7 +86,7 @@ public class HomeEditAnvilInventory extends InventoryAnvilZocker {
 	}
 
 	@Override
-	public int levelCost() {
+	public int getLevelCost() {
 		return 0;
 	}
 

@@ -51,7 +51,7 @@ public class SpawnCommand extends Command {
 
 		if (args.length == 0) {
 			if (spawnLocation == null) return;
-			new Teleporter((Player) sender, spawnLocation, Main.ESSENTIAL_CONFIG.getInt("essential.spawn.cooldown")).teleport();
+			new Teleporter((Player) sender, spawnLocation, Main.ESSENTIAL_CONFIG.getInt("essential.spawn.cooldown"), true).teleport();
 			return;
 		}
 

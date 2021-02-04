@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 
 public class WarpEditInventory extends InventoryUpdateZocker {
 
-	private Zocker zocker;
-	private Warp warp;
+	private final Zocker zocker;
+	private final Warp warp;
 	private int lorePosition = 0;
 	private int commandPosition = 0;
 	private int titlePosition = 0;

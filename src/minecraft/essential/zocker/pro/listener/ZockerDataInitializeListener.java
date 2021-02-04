@@ -25,7 +25,7 @@ public class ZockerDataInitializeListener implements Listener {
 				System.out.println("Misconfiguration detected. You cant force the spawn while sync is enabled!");
 				return;
 			}
-			
+
 			try {
 				Thread.sleep(Main.ESSENTIAL_CONFIG.getInt("essential.spawn.sync.wait"));
 
@@ -40,7 +40,7 @@ public class ZockerDataInitializeListener implements Listener {
 						new String[]{"player_uuid", "position_world", "position_x", "position_y", "position_z", "position_yaw", "position_pitch"},
 						new Object[]{player.getUniqueId().toString(), spawnLocation.getWorld().getName(), spawnLocation.getX(), spawnLocation.getY(), spawnLocation.getZ(), spawnLocation.getYaw(), spawnLocation.getPitch()});
 
-					new Teleporter(player, spawnLocation, 0).teleport();
+					new Teleporter(player, spawnLocation, 0, true).teleport();
 				} else {
 					Object world = data.get("position_world");
 					Object x = data.get("position_x");
@@ -51,16 +51,16 @@ public class ZockerDataInitializeListener implements Listener {
 
 					if (world != null && x != null && y != null && z != null && yaw != null && pitch != null) {
 						if (x.equals("0") && y.equals("0") && z.equals("0")) {
-							new Teleporter(player, spawnLocation, 0).teleport();
+							new Teleporter(player, spawnLocation, 0, true).teleport();
 							return;
 						}
 
 						World serverWorld = Bukkit.getWorld(world.toString());
 						if (serverWorld != null) {
-							new Teleporter(player, new Location(serverWorld, Double.valueOf(x.toString()), Double.valueOf(y.toString()) + 1, Double.valueOf(z.toString()), Float.valueOf(yaw.toString()), Float.valueOf(pitch.toString())), 0)
+							new Teleporter(player, new Location(serverWorld, Double.parseDouble(x.toString()), Double.parseDouble(y.toString()) + 1, Double.parseDouble(z.toString()), Float.parseFloat(yaw.toString()), Float.parseFloat(pitch.toString())), 0, true)
 								.teleport();
 						} else {
-							new Teleporter(player, spawnLocation, 0).teleport();
+							new Teleporter(player, spawnLocation, 0, true).teleport();
 						}
 					}
 				}
@@ -71,14 +71,14 @@ public class ZockerDataInitializeListener implements Listener {
 			if (Main.ESSENTIAL_CONFIG.getBool("essential.spawn.force")) {
 				Location spawnLocation = SpawnCommand.getSpawnLocation();
 				if (spawnLocation == null) return;
-				new Teleporter(player, spawnLocation, 0).teleport();
+				new Teleporter(player, spawnLocation, 0, true).teleport();
 				return;
 			}
 
 			if (!player.hasPlayedBefore()) {
 				Location spawnLocation = SpawnCommand.getSpawnLocation();
 				if (spawnLocation == null) return;
-				new Teleporter(player, spawnLocation, 0).teleport();
+				new Teleporter(player, spawnLocation, 0, true).teleport();
 			}
 		}
 	}
