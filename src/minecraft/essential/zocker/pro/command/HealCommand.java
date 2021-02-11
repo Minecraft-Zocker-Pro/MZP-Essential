@@ -31,7 +31,9 @@ public class HealCommand extends Command {
 			if (sender instanceof Player) {
 				Player player = (Player) sender;
 				if (player.getHealth() <= 0) return;
+
 				heal(sender, player, true);
+
 				CompatibleMessage.sendMessage(sender, Main.ESSENTIAL_MESSAGE.getString("essential.prefix") + Main.ESSENTIAL_MESSAGE.getString("essential.heal.self.success"));
 			}
 
@@ -60,39 +62,39 @@ public class HealCommand extends Command {
 	}
 
 	private void heal(CommandSender sender, Player target, boolean self) {
-		final double amount = target.getMaxHealth() - target.getHealth();
-		final EntityRegainHealthEvent entityRegainHealthEvent = new EntityRegainHealthEvent(target, amount, EntityRegainHealthEvent.RegainReason.CUSTOM);
-		Bukkit.getServer().getPluginManager().callEvent(entityRegainHealthEvent);
-		if (entityRegainHealthEvent.isCancelled()) return;
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				final double amount = target.getMaxHealth() - target.getHealth();
+				final EntityRegainHealthEvent entityRegainHealthEvent = new EntityRegainHealthEvent(target, amount, EntityRegainHealthEvent.RegainReason.CUSTOM);
+				Bukkit.getServer().getPluginManager().callEvent(entityRegainHealthEvent);
+				if (entityRegainHealthEvent.isCancelled()) return;
 
-		double newAmount = target.getHealth() + entityRegainHealthEvent.getAmount();
-		if (newAmount > target.getMaxHealth()) {
-			newAmount = target.getMaxHealth();
-		}
+				double newAmount = target.getHealth() + entityRegainHealthEvent.getAmount();
+				if (newAmount > target.getMaxHealth()) {
+					newAmount = target.getMaxHealth();
+				}
 
-		target.setHealth(newAmount);
+				target.setHealth(newAmount);
 
-		if (Main.ESSENTIAL_CONFIG.getBool("essential.heal.fire")) {
-			target.setFireTicks(0);
-		}
+				if (Main.ESSENTIAL_CONFIG.getBool("essential.heal.fire")) {
+					target.setFireTicks(0);
+				}
 
-		if (Main.ESSENTIAL_CONFIG.getBool("essential.heal.food")) {
-			target.setFoodLevel(20);
-		}
+				if (Main.ESSENTIAL_CONFIG.getBool("essential.heal.food")) {
+					target.setFoodLevel(20);
+				}
 
-		if (Main.ESSENTIAL_CONFIG.getBool("essential.heal.potion")) {
-			new BukkitRunnable() {
-				@Override
-				public void run() {
+				if (Main.ESSENTIAL_CONFIG.getBool("essential.heal.potion")) {
 					for (final PotionEffect effect : target.getActivePotionEffects()) {
 						target.removePotionEffect(effect.getType());
 					}
 				}
-			}.runTask(Main.getPlugin());
-		}
 
-		if (Main.ESSENTIAL_CONFIG.getBool("essential.heal.notify") && !self) {
-			CompatibleMessage.sendMessage(target, Main.ESSENTIAL_MESSAGE.getString("essential.prefix") + Main.ESSENTIAL_MESSAGE.getString("essential.heal.other.notify").replace("%target%", sender.getName()));
-		}
+				if (Main.ESSENTIAL_CONFIG.getBool("essential.heal.notify") && !self) {
+					CompatibleMessage.sendMessage(target, Main.ESSENTIAL_MESSAGE.getString("essential.prefix") + Main.ESSENTIAL_MESSAGE.getString("essential.heal.other.notify").replace("%target%", sender.getName()));
+				}
+			}
+		}.runTask(Main.getPlugin());
 	}
 }
