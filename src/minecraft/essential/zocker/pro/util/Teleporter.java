@@ -66,7 +66,7 @@ public class Teleporter {
 						player.teleport(location);
 						CompatibleSound.playTeleportSound(player);
 					} else {
-						teleportSync();
+						teleportSync(false);
 					}
 				} else {
 					new BukkitRunnable() {
@@ -82,7 +82,7 @@ public class Teleporter {
 								if (cd != 0) {
 									cd--;
 								} else {
-									teleportSync();
+									teleportSync(true);
 									this.cancel();
 								}
 							} else {
@@ -102,8 +102,8 @@ public class Teleporter {
 		}.runTask(Main.getPlugin());
 	}
 
-	private void teleportSync() {
-		Bukkit.getPluginManager().callEvent(new TeleportEndEvent(teleporter, true));
+	private void teleportSync(boolean async) {
+		Bukkit.getPluginManager().callEvent(new TeleportEndEvent(teleporter, async));
 
 		new BukkitRunnable() {
 			@Override

@@ -65,7 +65,7 @@ public class TeleportRequestCommand extends Command {
 			CompatibleMessage.sendMessage(player, Main.ESSENTIAL_MESSAGE.getString("essential.prefix") + Main.ESSENTIAL_MESSAGE.getString("essential.teleport.request.sent").replace("%target%", target.getName()));
 
 			CompatibleSound.playSuccessSound(target);
-			target.spigot().sendMessage(this.getAcceptText(Main.ESSENTIAL_MESSAGE.getString("essential.prefix") + Main.ESSENTIAL_MESSAGE.getString("essential.teleport.request.received").replace("%target%", player.getName())));
+			CompatibleMessage.sendMessage(target, this.getAcceptText(Main.ESSENTIAL_MESSAGE.getString("essential.prefix") + Main.ESSENTIAL_MESSAGE.getString("essential.teleport.request.received").replace("%target%", player.getName())));
 			return;
 		}
 
