@@ -1,6 +1,7 @@
 package minecraft.essential.zocker.pro.event;
 
 import minecraft.essential.zocker.pro.util.Teleporter;
+import minecraft.essential.zocker.pro.util.TeleporterCause;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -8,10 +9,12 @@ public class TeleportEndEvent extends Event {
 	private static final HandlerList HANDLER_LIST = new HandlerList();
 
 	private final Teleporter teleporter;
+	private final TeleporterCause cause;
 
-	public TeleportEndEvent(Teleporter teleporter, boolean async) {
+	public TeleportEndEvent(Teleporter teleporter, TeleporterCause cause, boolean async) {
 		super(async);
 		this.teleporter = teleporter;
+		this.cause = cause;
 	}
 
 	public HandlerList getHandlers() {
@@ -24,4 +27,9 @@ public class TeleportEndEvent extends Event {
 
 	public Teleporter getTeleporter() {
 		return teleporter;
-	}}
+	}
+
+	public TeleporterCause getCause() {
+		return cause;
+	}
+}

@@ -21,8 +21,8 @@ import java.util.concurrent.ExecutionException;
 
 public class HomeEditInventory extends InventoryZocker {
 
-	private Zocker zocker;
-	private Home home;
+	private final Zocker zocker;
+	private final Home home;
 
 	public HomeEditInventory(Zocker zocker, Home home) {
 		this.zocker = zocker;

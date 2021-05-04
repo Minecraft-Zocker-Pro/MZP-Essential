@@ -19,6 +19,7 @@ public class Teleporter {
 	private static final ArrayList<UUID> PLAYER_TELEPORTING = new ArrayList<>();
 
 	private Player player;
+	private TeleporterCause cause;
 	private Location location;
 	private int cooldown;
 	private boolean sync = true;
@@ -32,7 +33,11 @@ public class Teleporter {
 	}
 
 	public Teleporter(Player player, Location location, int cooldown, boolean sync) {
-		if (location.getWorld() == null) {
+		this(player, location, cooldown, sync, TeleporterCause.COMMAND);
+	}
+
+	public Teleporter(Player player, Location location, int cooldown, boolean sync, TeleporterCause cause) {
+		if (location == null) {
 			if (SpawnCommand.getSpawnLocation() == null) {
 				System.out.println("Cant teleport the player. No spawn found!");
 				return;
@@ -45,69 +50,77 @@ public class Teleporter {
 		this.location = location;
 		this.cooldown = cooldown;
 		this.sync = sync;
+		this.cause = cause;
 
 		this.teleporter = this;
-		this.teleportStartEvent = new TeleportStartEvent(this);
+		this.teleportStartEvent = new TeleportStartEvent(this, cause);
 	}
 
 	public void teleport() {
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				Bukkit.getPluginManager().callEvent(teleportStartEvent);
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					Bukkit.getPluginManager().callEvent(teleportStartEvent);
 
-				if (teleportStartEvent.isCancelled()) return;
+					if (teleportStartEvent.isCancelled()) return;
 
-				if (PLAYER_TELEPORTING.contains(player.getUniqueId())) return;
-				PLAYER_TELEPORTING.add(player.getUniqueId());
+					if (PLAYER_TELEPORTING.contains(player.getUniqueId())) return;
+					PLAYER_TELEPORTING.add(player.getUniqueId());
 
-				if (cooldown == 0) {
-					if (!sync) {
-						player.teleport(location);
-						CompatibleSound.playTeleportSound(player);
+					if (cooldown == 0) {
+						if (!sync) {
+							player.teleport(location);
+							CompatibleSound.playTeleportSound(player);
+							PLAYER_TELEPORTING.remove(player.getUniqueId());
+						} else {
+							teleportSync(false);
+						}
 					} else {
-						teleportSync(false);
-					}
-				} else {
-					new BukkitRunnable() {
-						int cd = cooldown;
-						final Location playerLocation = player.getLocation();
+						new BukkitRunnable() {
+							int cd = cooldown;
+							final Location playerLocation = player.getLocation();
 
-						@Override
-						public void run() {
-							if (player.getLocation().getX() == playerLocation.getX() && player.getLocation().getY() == playerLocation.getY()) {
-								CompatibleMessage.sendActionBar(player, Main.ESSENTIAL_MESSAGE.getString("essential.teleport.teleporting").replace("%cooldown%", String.valueOf(cd)));
-								player.playSound(player.getLocation(), CompatibleSound.BLOCK_NOTE_BLOCK_PLING.getSound(), 1.5F, 1.5F);
+							@Override
+							public void run() {
+								if (player.getLocation().getX() == playerLocation.getX() && player.getLocation().getY() == playerLocation.getY()) {
+									CompatibleMessage.sendActionBar(player, Main.ESSENTIAL_MESSAGE.getString("essential.teleport.teleporting").replace("%cooldown%", String.valueOf(cd)));
+									player.playSound(player.getLocation(), CompatibleSound.BLOCK_NOTE_BLOCK_PLING.getSound(), 1.5F, 1.5F);
 
-								if (cd != 0) {
-									cd--;
+									if (cd != 0) {
+										cd--;
+									} else {
+										teleportSync(true);
+										this.cancel();
+									}
 								} else {
-									teleportSync(true);
+									if (teleporterListener != null) {
+										teleporterListener.onCanceled();
+									}
+
+									CompatibleMessage.sendMessage(player, Main.ESSENTIAL_MESSAGE.getString("essential.prefix") + Main.ESSENTIAL_MESSAGE.getString("essential.teleport.canceled"));
+									PLAYER_TELEPORTING.remove(player.getUniqueId());
+									callTeleportEndEvent();
 									this.cancel();
 								}
-							} else {
-								if (teleporterListener != null) {
-									teleporterListener.onCanceled();
-								}
-
-								CompatibleMessage.sendMessage(player, Main.ESSENTIAL_MESSAGE.getString("essential.prefix") + Main.ESSENTIAL_MESSAGE.getString("essential.teleport.canceled"));
-								PLAYER_TELEPORTING.remove(player.getUniqueId());
-								callTeleportEndEvent();
-								this.cancel();
 							}
-						}
-					}.runTaskTimerAsynchronously(Main.getPlugin(), 20L, 20L);
+						}.runTaskTimerAsynchronously(Main.getPlugin(), 20L, 20L);
+					}
 				}
-			}
-		}.runTask(Main.getPlugin());
+			}.runTask(Main.getPlugin());
 	}
 
 	private void teleportSync(boolean async) {
-		Bukkit.getPluginManager().callEvent(new TeleportEndEvent(teleporter, async));
+		if (async) {
+			Bukkit.getPluginManager().callEvent(new TeleportEndEvent(teleporter, this.cause, async));
+		}
 
 		new BukkitRunnable() {
 			@Override
 			public void run() {
+				if (!async) {
+					Bukkit.getPluginManager().callEvent(new TeleportEndEvent(teleporter, cause, false));
+				}
+
 				player.teleport(location);
 
 				if (teleporterListener != null) {
@@ -122,7 +135,7 @@ public class Teleporter {
 	}
 
 	private void callTeleportEndEvent() {
-		Bukkit.getPluginManager().callEvent(new TeleportEndEvent(teleporter, true));
+		Bukkit.getPluginManager().callEvent(new TeleportEndEvent(teleporter, this.cause, true));
 	}
 
 	public Player getPlayer() {
@@ -147,6 +160,10 @@ public class Teleporter {
 
 	public void setTeleporterListener(TeleporterListener teleporterListener) {
 		this.teleporterListener = teleporterListener;
+	}
+
+	public TeleporterCause getCause() {
+		return cause;
 	}
 
 	public interface TeleporterListener {

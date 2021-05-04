@@ -180,7 +180,7 @@ public class Main extends CorePlugin {
 		ESSENTIAL_MESSAGE.set("essential.heal.self.success", "&3Successfully healed.");
 		ESSENTIAL_MESSAGE.set("essential.heal.other.success", "&3You successfully healed &6%target%&3.");
 		ESSENTIAL_MESSAGE.set("essential.heal.other.notify", "&3You have been healed by &6%target%&3.");
-		
+
 		// Home
 		ESSENTIAL_MESSAGE.set("essential.home.created", "&6You &3created an new home.", "0.0.1");
 		ESSENTIAL_MESSAGE.set("essential.home.deleted", "&6You &3deleted the home &6%home%&3.", "0.0.1");
@@ -266,8 +266,9 @@ public class Main extends CorePlugin {
 
 	@Override
 	public void registerCommand() {
+		getCommand("teleport").setExecutor(new TeleportCommand());
+		
 		if (Optional.of(ESSENTIAL_CONFIG.getBool("essential.teleport.request.enabled")).orElse(true)) {
-			getCommand("teleport").setExecutor(new TeleportCommand());
 			getCommand("tpa").setExecutor(new TeleportRequestCommand());
 		}
 
@@ -308,6 +309,7 @@ public class Main extends CorePlugin {
 			hasVaultSupport = false;
 			return false;
 		}
+		
 		RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
 		if (rsp == null) {
 			hasVaultSupport = false;

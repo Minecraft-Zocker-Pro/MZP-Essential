@@ -4,6 +4,7 @@ import minecraft.core.zocker.pro.event.ZockerDataInitializeEvent;
 import minecraft.essential.zocker.pro.Main;
 import minecraft.essential.zocker.pro.command.spawn.SpawnCommand;
 import minecraft.essential.zocker.pro.util.Teleporter;
+import minecraft.essential.zocker.pro.util.TeleporterCause;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -40,7 +41,7 @@ public class ZockerDataInitializeListener implements Listener {
 						new String[]{"player_uuid", "position_world", "position_x", "position_y", "position_z", "position_yaw", "position_pitch"},
 						new Object[]{player.getUniqueId().toString(), spawnLocation.getWorld().getName(), spawnLocation.getX(), spawnLocation.getY(), spawnLocation.getZ(), spawnLocation.getYaw(), spawnLocation.getPitch()});
 
-					new Teleporter(player, spawnLocation, 0, true).teleport();
+					new Teleporter(player, spawnLocation, 0, true, TeleporterCause.PLUGIN).teleport();
 				} else {
 					Object world = data.get("position_world");
 					Object x = data.get("position_x");
@@ -51,16 +52,16 @@ public class ZockerDataInitializeListener implements Listener {
 
 					if (world != null && x != null && y != null && z != null && yaw != null && pitch != null) {
 						if (x.equals("0") && y.equals("0") && z.equals("0")) {
-							new Teleporter(player, spawnLocation, 0, true).teleport();
+							new Teleporter(player, spawnLocation, 0, true, TeleporterCause.PLUGIN).teleport();
 							return;
 						}
 
 						World serverWorld = Bukkit.getWorld(world.toString());
 						if (serverWorld != null) {
-							new Teleporter(player, new Location(serverWorld, Double.parseDouble(x.toString()), Double.parseDouble(y.toString()) + 1, Double.parseDouble(z.toString()), Float.parseFloat(yaw.toString()), Float.parseFloat(pitch.toString())), 0, true)
+							new Teleporter(player, new Location(serverWorld, Double.parseDouble(x.toString()), Double.parseDouble(y.toString()) + 1, Double.parseDouble(z.toString()), Float.parseFloat(yaw.toString()), Float.parseFloat(pitch.toString())), 0, true, TeleporterCause.PLUGIN)
 								.teleport();
 						} else {
-							new Teleporter(player, spawnLocation, 0, true).teleport();
+							new Teleporter(player, spawnLocation, 0, true, TeleporterCause.PLUGIN).teleport();
 						}
 					}
 				}
@@ -78,7 +79,7 @@ public class ZockerDataInitializeListener implements Listener {
 			if (!player.hasPlayedBefore()) {
 				Location spawnLocation = SpawnCommand.getSpawnLocation();
 				if (spawnLocation == null) return;
-				new Teleporter(player, spawnLocation, 0, true).teleport();
+				new Teleporter(player, spawnLocation, 0, true, TeleporterCause.PLUGIN).teleport();
 			}
 		}
 	}
