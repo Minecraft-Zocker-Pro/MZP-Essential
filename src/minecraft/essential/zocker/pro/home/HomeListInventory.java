@@ -74,7 +74,7 @@ public class HomeListInventory extends InventoryZocker {
 		for (Home home : homeZocker.getHomes()) {
 			if (home == null) continue;
 
-			this.setItem(new InventoryEntryBuilder()
+			this.addItem(new InventoryEntryBuilder()
 				.setItem(new ItemBuilder(home.getMaterial())
 					.setName("§6§l" + home.getName()))
 				.onLeftClick(e -> {

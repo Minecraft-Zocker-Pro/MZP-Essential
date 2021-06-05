@@ -24,7 +24,7 @@ import java.util.List;
 
 public class WarpListInventory extends InventoryZocker {
 
-	private Zocker zocker;
+	private final Zocker zocker;
 
 	public WarpListInventory(Zocker zocker) {
 		this.zocker = zocker;
@@ -81,14 +81,6 @@ public class WarpListInventory extends InventoryZocker {
 	}
 
 	@Override
-	public void onOpen(InventoryZocker inventoryZocker, InventoryOpenEvent inventoryOpenEvent) {
-	}
-
-	@Override
-	public void onClose(InventoryZocker inventoryZocker, InventoryCloseEvent inventoryCloseEvent) {
-	}
-
-	@Override
 	public void setupInventory() {
 		this.fillBorders();
 
@@ -113,7 +105,7 @@ public class WarpListInventory extends InventoryZocker {
 				}
 			}
 
-			this.setItem(new InventoryEntryBuilder()
+			this.addItem(new InventoryEntryBuilder()
 				.setItem(new ItemBuilder(warp.getMaterial())
 					.setLore(lores)
 					.addItemFlag(ItemFlag.HIDE_ATTRIBUTES)

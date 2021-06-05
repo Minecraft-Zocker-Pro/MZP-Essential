@@ -47,7 +47,7 @@ public class Main extends CorePlugin {
 		PLUGIN = this;
 
 		if (!Bukkit.getPluginManager().isPluginEnabled("MZP-Core")) {
-			System.out.println("Disabled due to no MZP-Core dependency found!");
+			getLogger().info("Disabled due to no MZP-Core dependency found!");
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
@@ -55,7 +55,7 @@ public class Main extends CorePlugin {
 		this.buildConfig();
 
 		if (this.setupEconomy()) {
-			System.out.println("Hooked into Vault!");
+			getLogger().info("Hooked into Vault!");
 		}
 
 		this.verifyDatabase();
