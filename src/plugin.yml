@@ -1,7 +1,7 @@
 name: MZP-Essential
 main: minecraft.essential.zocker.pro.Main
 author: ludgart
-version: 0.0.12
+version: 0.0.13
 website: https://minecraft.plugin.zocker.pro/
 depend: [MZP-Core]
 softdepend: [MZP-Economy, Vault]
